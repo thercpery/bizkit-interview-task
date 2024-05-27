@@ -9,7 +9,6 @@ bp = Blueprint("match", __name__, url_prefix="/match")
 
 @bp.route("<int:match_id>")
 def match(match_id):
-    print(f"match_id {match_id}")
     if match_id < 0 or match_id >= len(MATCHES):
         return "Invalid match id", 404
 
