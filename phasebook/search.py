@@ -8,7 +8,6 @@ bp = Blueprint("search", __name__, url_prefix="/search")
 
 @bp.route("")
 def search():
-    print(request.args.to_dict())
     return search_users(request.args.to_dict()), 200
 
 
@@ -27,14 +26,17 @@ def search_users(args):
     """
     
     results = []
-    for user in USERS:
-        for key, value in args.items():
-            if type(user[key]) == str:
-                regexFormat = f"({value.lower()})"
-                result = re.findall(regexFormat, user[key].lower())
-                if len(result) > 0:
-                    results.append(user)
-            if type(user[key]) == int and user[key] == int(value):
-                results.append(user)
+    parameters = ['id', 'name', 'age', 'occupation']
+    for parameter in parameters:
+        if parameter in args:
+            for user in USERS:
+                if type(user[parameter]) == str:
+                    regexFormat = f"({args[parameter].lower()})"
+                    result = re.findall(regexFormat, user[parameter].lower())
+                    if len(result) > 0:
+                        results.append(user)
+                if type(user[parameter]) == int:
+                    if user[parameter] == int(args[parameter]) or user[parameter] == int(args[parameter]) + 1 or user[parameter] == int(args[parameter]) - 1: 
+                        results.append(user)
 
     return results
