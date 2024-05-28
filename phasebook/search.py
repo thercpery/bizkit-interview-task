@@ -30,13 +30,14 @@ def search_users(args):
     for parameter in parameters:
         if parameter in args:
             for user in USERS:
-                if type(user[parameter]) == str:
-                    regexFormat = f"({args[parameter].lower()})"
-                    result = re.findall(regexFormat, user[parameter].lower())
-                    if len(result) > 0:
-                        results.append(user)
-                if type(user[parameter]) == int:
-                    if user[parameter] == int(args[parameter]) or user[parameter] == int(args[parameter]) + 1 or user[parameter] == int(args[parameter]) - 1: 
-                        results.append(user)
+                if user not in results:
+                    if type(user[parameter]) == str:
+                        regexFormat = f"({args[parameter].lower()})"
+                        result = re.findall(regexFormat, user[parameter].lower())
+                        if len(result) > 0:
+                            results.append(user)
+                    if type(user[parameter]) == int:
+                        if user[parameter] == int(args[parameter]) or user[parameter] == int(args[parameter]) + 1 or user[parameter] == int(args[parameter]) - 1: 
+                            results.append(user)
 
     return results
